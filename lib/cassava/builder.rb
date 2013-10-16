@@ -1,5 +1,5 @@
 require "delegate"
-module Casanova
+module Cassava
   class Builder
     attr_accessor :column_separator, :columns, :file_path, :rows
     def initialize

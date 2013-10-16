@@ -1,6 +1,6 @@
-require_relative "../../lib/casanova/builder"
+require_relative "../../lib/cassava/builder"
 
-describe Casanova::Builder do
+describe Cassava::Builder do
   let(:builder) { described_class.new }
   describe "#column_separator" do
     subject { builder.column_separator }

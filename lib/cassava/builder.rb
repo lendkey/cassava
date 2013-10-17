@@ -57,7 +57,7 @@ module Cassava
     end
   end
 
-  Column = Struct.new(:method_call, :header_name)
+  Column = Struct.new(:header_name, :method_call)
   class Row < SimpleDelegator; end
   class BlockDelegator < SimpleDelegator;end
 end

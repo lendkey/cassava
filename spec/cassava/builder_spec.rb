@@ -2,6 +2,7 @@ require_relative "../../lib/cassava/builder"
 
 describe Cassava::Builder do
   let(:builder) { described_class.new }
+
   describe "#column_separator" do
     subject { builder.column_separator }
 
@@ -21,30 +22,6 @@ describe Cassava::Builder do
     context "with a path '~/csv.csv'" do
       before { builder.file_path = "~/csv.csv" }
       it { should eq "~/csv.csv" }
-    end
-  end
-
-  describe "#add_column" do
-    it "should add a column object" do
-      builder.add_column(:method, "header name")
-      builder.add_column(:method, "header name 2")
-      builder.columns.count.should eq 2
-    end
-  end
-
-  describe "#add_row" do
-    it "should add a row object" do
-      builder.add_row(double)
-      builder.add_row(double)
-      builder.rows.count.should eq 2
-    end
-  end
-
-  describe "#add_rows" do
-    it "should add everything from an array to rows" do
-      builder.add_rows( [double, double] )
-      builder.add_rows( [double] )
-      builder.rows.count.should eq 3
     end
   end
 

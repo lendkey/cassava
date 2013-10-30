@@ -47,7 +47,7 @@ end
 user = User.new 'Bob'
 address = Address.new 'Main St', 'New York'
 
-Cassave::Builder.build do
+Cassava::Builder.build do
   filename = 'report.csv'
   add_column(:username, 'Name')
   add_column(:street, 'Street')
@@ -73,6 +73,6 @@ user = User.new 'Bob', 'Doe'
 Cassava::Builder.build do
   filename = 'users.csv'
   add_column(:full_name, "Name")
-  add_row(user)
+  add_row(UserPresenter.new(user))
 end
 ```

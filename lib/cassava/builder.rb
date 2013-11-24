@@ -2,7 +2,7 @@ require_relative "data"
 
 module Cassava
   class Builder
-    attr_accessor :column_separator, :file_path, :data
+    attr_accessor :wrapper, :separator, :file_path, :data
     def self.build(&block)
       builder = new
       builder.instance_eval(&block)
@@ -10,8 +10,9 @@ module Cassava
     end
 
     def initialize
-      @column_separator = ','
       @data = Data.new
+      @wrapper = DoubleQuoteWrapper
+      @separator = ComaSeparator
     end
 
     def build
@@ -22,7 +23,7 @@ module Cassava
     end
 
     def set_column_separator(separator)
-      @column_separator = separator
+      @separator = separator
     end
 
     def set_path(path)
@@ -36,7 +37,7 @@ module Cassava
     private
 
     def header_row
-      @data.headers.join(@column_separator) + "\n"
+      separate( wrap(@data.headers) ) + "\n"
     end
 
     def data_rows
@@ -45,7 +46,15 @@ module Cassava
 
     def build_row(r)
       row = @data.calls.map{|c| r.send(c)}
-      row.join @column_separator
+      separate( wrap(row) )
+    end
+
+    def wrap(row)
+      @wrapper.new(row).wrap
+    end
+
+    def separate(row)
+      @separator.new(row).separate
     end
   end
 end

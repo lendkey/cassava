@@ -3,16 +3,31 @@ require_relative "../../lib/cassava/builder"
 describe Cassava::Builder do
   let(:builder) { described_class.new }
 
-  describe "#column_separator" do
-    subject { builder.column_separator }
+  describe "#wrapper" do
+    subject { builder.wrapper }
 
     context "default" do
-      it { should eq "," }
+      it { should eq Cassava::DoubleQuoteWrapper }
     end
 
-    context "setting a separator 'x'" do
-      before { builder.column_separator = "x" }
-      it { should eq "x" }
+    context "setting a separator" do
+      let(:wrapper) { Class.new }
+      before { builder.wrapper = wrapper }
+      it { should eq wrapper }
+    end
+  end
+
+  describe "#separator" do
+    subject { builder.separator }
+
+    context "default" do
+      it { should eq Cassava::ComaSeparator }
+    end
+
+    context "setting a separator" do
+      let(:separator) { Class.new }
+      before { builder.separator = separator }
+      it { should eq separator }
     end
   end
 
@@ -29,7 +44,7 @@ describe Cassava::Builder do
     let(:path) { "/tmp/test_file.csv" }
     let(:object_1) { double(foo: "Bar", herp: "Derp") }
     let(:object_2) { double(foo: "A", herp: "B") }
-    let(:result) { "Foo,Herp\nBar,Derp\nA,B" }
+    let(:result) { "\"Foo\",\"Herp\"\n\"Bar\",\"Derp\"\n\"A\",\"B\"" }
 
     after { `rm #{path}` }
 

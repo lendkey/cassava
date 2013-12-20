@@ -20,8 +20,7 @@ end
 Cassava::Builder.build do
   set_path 'file_name'
   add_column :a, 'a'
-  add_column :b, 'b'
-  add_column :c, 'c'
+  add_columns [[:b, 'b'], [:c, 'c']]
   add_rows Object.all
 end
 ```

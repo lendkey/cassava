@@ -18,6 +18,10 @@ module Cassava
       columns.push(Column.new(header_name, method_call))
     end
 
+    def add_columns(column_pairs)
+      column_pairs.each {|pair| add_column(*pair)}
+    end
+
     def add_row(data_model)
       rows.push(Row.new(data_model))
     end

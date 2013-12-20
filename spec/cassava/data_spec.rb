@@ -11,6 +11,13 @@ describe Cassava::Data do
     end
   end
 
+  describe "#add_columns" do
+    it "should add an array of pairs to the columns" do
+      data.add_columns([ [:call, "header name"], [:call2, "header name 2"] ])
+      data.columns.count.should eq 2
+    end
+  end
+
   describe "#add_row" do
     it "should add a row object" do
       data.add_row(double)

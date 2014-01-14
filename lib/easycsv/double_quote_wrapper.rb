@@ -1,6 +1,6 @@
-module Cassava; class DoubleQuoteWrapper; end; end
+module EasyCSV; class DoubleQuoteWrapper; end; end
 
-class Cassava::DoubleQuoteWrapper
+class EasyCSV::DoubleQuoteWrapper
   def initialize(row)
     @row = row
   end

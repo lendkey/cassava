@@ -1,6 +1,6 @@
 require "delegate"
 
-module Cassava
+module EasyCSV
   class Data < Struct.new(:columns, :rows)
     def initialize
       super(Array.new, Array.new)

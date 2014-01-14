@@ -1,6 +1,6 @@
-require_relative '../../lib/cassava/double_quote_wrapper'
+require_relative '../../lib/easycsv/double_quote_wrapper'
 
-describe Cassava::DoubleQuoteWrapper do
+describe EasyCSV::DoubleQuoteWrapper do
   describe "#wrap" do
     subject { described_class.new(row).wrap }
     let(:row) { ["entry", "yrtne"] }

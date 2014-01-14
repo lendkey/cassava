@@ -1,7 +1,7 @@
-Cassava
+EasyCSV
 =========
 
-Cassava is an object oriented approach to CSV generation. Compared to traditional array based CSV generation there is much less work to make changes and much more automated.
+EasyCSV is an object oriented approach to CSV generation. Compared to traditional array based CSV generation there is much less work to make changes and much more automated.
 
 ## Array Based
 
@@ -14,10 +14,10 @@ CSV.open("filename", "w") do |csv|
 end
 ```
 
-## Cassava
+## EasyCSV
 
 ```ruby
-Cassava::Builder.build do
+EasyCSV::Builder.build do
   set_path 'file_name'
   add_column :a, 'a'
   add_columns [[:b, 'b'], [:c, 'c']]
@@ -46,7 +46,7 @@ end
 user = User.new 'Bob'
 address = Address.new 'Main St', 'New York'
 
-Cassava::Builder.build do
+EasyCSV::Builder.build do
   set_path('/tmp/report.csv')
   add_column(:username, 'Name')
   add_column(:street, 'Street')
@@ -69,7 +69,7 @@ end
 
 user = User.new 'Bob', 'Doe'
 
-Cassava::Builder.build do
+EasyCSV::Builder.build do
   set_path('/tmp/users.csv')
   add_column(:full_name, "Name")
   add_row(UserPresenter.new(user))

@@ -1,6 +1,6 @@
-require_relative '../../lib/cassava/coma_separator'
+require_relative '../../lib/easycsv/coma_separator'
 
-describe Cassava::ComaSeparator do
+describe EasyCSV::ComaSeparator do
   describe '#separate' do
     subject { described_class.new(row).separate }
     let(:row) { ['Foo', 'Bar'] }

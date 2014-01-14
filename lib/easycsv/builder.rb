@@ -1,6 +1,6 @@
 require_relative "data"
 
-module Cassava
+module EasyCSV
   class Builder
     attr_accessor :wrapper, :separator, :file_path, :data
     def self.build(&block)

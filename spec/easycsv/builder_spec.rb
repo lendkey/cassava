@@ -1,13 +1,13 @@
-require_relative "../../lib/cassava/builder"
+require_relative "../../lib/easycsv/builder"
 
-describe Cassava::Builder do
+describe EasyCSV::Builder do
   let(:builder) { described_class.new }
 
   describe "#wrapper" do
     subject { builder.wrapper }
 
     context "default" do
-      it { should eq Cassava::DoubleQuoteWrapper }
+      it { should eq EasyCSV::DoubleQuoteWrapper }
     end
 
     context "setting a separator" do
@@ -21,7 +21,7 @@ describe Cassava::Builder do
     subject { builder.separator }
 
     context "default" do
-      it { should eq Cassava::ComaSeparator }
+      it { should eq EasyCSV::ComaSeparator }
     end
 
     context "setting a separator" do

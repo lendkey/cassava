@@ -1,6 +1,6 @@
-require_relative "../../lib/cassava/data"
+require_relative "../../lib/easycsv/data"
 
-describe Cassava::Data do
+describe EasyCSV::Data do
   let(:data) { described_class.new }
 
   describe "#add_column" do

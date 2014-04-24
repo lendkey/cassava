@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'easycsv'
-  s.homepage    = "https://github.com/lendkey/easycsv"
+  s.homepage    = "https://github.com/lendkey/cassava"
   s.version     = "0.0.1"
   s.date        = "2014-01-14"
   s.summary     = "easier csv creation"

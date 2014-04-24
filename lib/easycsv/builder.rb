@@ -1,44 +1,52 @@
 require_relative "data"
+require_relative "double_quote_wrapper"
+require_relative "comma_separator"
 
 module EasyCSV
   class Builder
-    attr_accessor :wrapper, :separator, :file_path, :data
+    attr_accessor :wrapper, :separator, :data, :csv_string, :writers
     def self.build(&block)
       builder = new
       builder.instance_eval(&block)
       builder.build
     end
 
-    def self.generate(&block)
-      builder = new
-      builder.instance_eval(&block)
-      builder.generate
-    end
-
     def initialize
       @data = Data.new
       @wrapper = DoubleQuoteWrapper
       @separator = CommaSeparator
-    end
-
-    def generate
-      [header_row, data_rows].inject(String.new) do |str, part|
-        str += part
-      end
+      @writers = WriterSet.new
     end
 
     def build
-      File.open(@file_path, "w") do |f|
-        f.write self.generate
-      end
+      generate_csv_string
+      @writers.write(csv_string)
+      return csv_string
     end
 
     def set_column_separator(separator)
       @separator = separator
     end
 
-    def set_path(path)
-      @file_path = path
+    def write_to_file(path)
+      @writers << FileWriter.new(path)
+    end
+
+    class WriterSet < Array
+      def write(csv_string)
+        self.each {|writer| writer.write(csv_string) }
+      end
+    end
+
+    class FileWriter
+      def initialize(path)
+        @path = path
+      end
+      def write(csv_string)
+        File.open(@path, "w") do |f|
+          f.write csv_string
+        end
+      end
     end
 
     def method_missing(m, *args, &block)
@@ -46,6 +54,12 @@ module EasyCSV
     end
 
     private
+
+    def generate_csv_string
+      @csv_string = [header_row, data_rows].inject(String.new) do |str, part|
+        str += part
+      end
+    end
 
     def header_row
       separate( wrap(@data.headers) ) + "\n"

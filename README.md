@@ -18,7 +18,7 @@ end
 
 ```ruby
 EasyCSV::Builder.build do
-  set_path 'file_name'
+  write_to_file 'file_name'
   add_column :a, 'a'
   add_columns [[:b, 'b'], [:c, 'c']]
   add_rows Object.all
@@ -47,7 +47,7 @@ user = User.new 'Bob'
 address = Address.new 'Main St', 'New York'
 
 EasyCSV::Builder.build do
-  set_path('/tmp/report.csv')
+  write_to_file('/tmp/report.csv')
   add_column(:username, 'Name')
   add_column(:street, 'Street')
   add_column(:city, 'City')
@@ -70,8 +70,12 @@ end
 user = User.new 'Bob', 'Doe'
 
 EasyCSV::Builder.build do
-  set_path('/tmp/users.csv')
+  write_to_file('/tmp/users.csv')
   add_column(:full_name, "Name")
   add_row(UserPresenter.new(user))
 end
 ```
+### Output
+EasyCSV returns a string representation of the built CSV. If you do not wish to write to a file then omit #write_to_file while setting up the builder.
+
+If you want to write to multiple files simply call #write_to_file multiple times.

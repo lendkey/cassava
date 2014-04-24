@@ -31,16 +31,7 @@ describe EasyCSV::Builder do
     end
   end
 
-  describe "#file_path" do
-    subject { builder.file_path }
-
-    context "with a path '~/csv.csv'" do
-      before { builder.file_path = "~/csv.csv" }
-      it { should eq "~/csv.csv" }
-    end
-  end
-
-  describe "#generate" do
+  describe "#build" do
     let(:path) { "/tmp/test_file.csv" }
     let(:object_1) { double(foo: "Bar", herp: "Derp") }
     let(:object_2) { double(foo: "A", herp: "B") }
@@ -53,7 +44,7 @@ describe EasyCSV::Builder do
         builder.add_row(object_1)
         builder.add_row(object_2)
 
-        builder.generate.should eq(result)
+        builder.build.should eq(result)
       end
     end
 
@@ -62,7 +53,7 @@ describe EasyCSV::Builder do
         b_object_1 = object_1
         b_object_2 = object_2
 
-        described_class.generate do
+        described_class.build do
           add_column(:foo, "Foo")
           add_column(:herp, "Herp")
           add_row(b_object_1)
@@ -70,45 +61,39 @@ describe EasyCSV::Builder do
         end.should eq(result)
       end
     end
-  end
+    context "writing a file" do
+      after { `rm #{path}` }
 
-  describe "#build" do
-    let(:path) { "/tmp/test_file.csv" }
-    let(:object_1) { double(foo: "Bar", herp: "Derp") }
-    let(:object_2) { double(foo: "A", herp: "B") }
-    let(:result) { "\"Foo\",\"Herp\"\n\"Bar\",\"Derp\"\n\"A\",\"B\"" }
+      context "normal mode" do
+        it "should write the file" do
+          builder.write_to_file path
+          builder.add_column(:foo, "Foo")
+          builder.add_column(:herp, "Herp")
+          builder.add_row(object_1)
+          builder.add_row(object_2)
 
-    after { `rm #{path}` }
+          builder.build
 
-    context "normal mode" do
-      it "should write the file" do
-        builder.file_path = path
-        builder.add_column(:foo, "Foo")
-        builder.add_column(:herp, "Herp")
-        builder.add_row(object_1)
-        builder.add_row(object_2)
-
-        builder.build
-
-        File.read(path).should eq(result)
-      end
-    end
-
-    context "block mode" do
-      it "should write the file" do
-        b_path = path
-        b_object_1 = object_1
-        b_object_2 = object_2
-
-        described_class.build do
-          set_path(b_path)
-          add_column(:foo, "Foo")
-          add_column(:herp, "Herp")
-          add_row(b_object_1)
-          add_row(b_object_2)
+          File.read(path).should eq(result)
         end
+      end
 
-        File.read(b_path).should eq(result)
+      context "block mode" do
+        it "should write the file" do
+          b_path = path
+          b_object_1 = object_1
+          b_object_2 = object_2
+
+          described_class.build do
+            write_to_file(b_path)
+            add_column(:foo, "Foo")
+            add_column(:herp, "Herp")
+            add_row(b_object_1)
+            add_row(b_object_2)
+          end
+
+          File.read(b_path).should eq(result)
+        end
       end
     end
   end

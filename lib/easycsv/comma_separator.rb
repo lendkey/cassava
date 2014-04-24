@@ -1,6 +1,6 @@
-module EasyCSV; class ComaSeparator; end; end
+module EasyCSV; class CommaSeparator; end; end
 
-class EasyCSV::ComaSeparator
+class EasyCSV::CommaSeparator
   def initialize(row)
     @row = row
   end

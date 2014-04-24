@@ -21,7 +21,7 @@ describe EasyCSV::Builder do
     subject { builder.separator }
 
     context "default" do
-      it { should eq EasyCSV::ComaSeparator }
+      it { should eq EasyCSV::CommaSeparator }
     end
 
     context "setting a separator" do

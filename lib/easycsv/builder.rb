@@ -18,7 +18,7 @@ module EasyCSV
     def initialize
       @data = Data.new
       @wrapper = DoubleQuoteWrapper
-      @separator = ComaSeparator
+      @separator = CommaSeparator
     end
 
     def generate

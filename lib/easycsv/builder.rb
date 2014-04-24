@@ -9,16 +9,27 @@ module EasyCSV
       builder.build
     end
 
+    def self.generate(&block)
+      builder = new
+      builder.instance_eval(&block)
+      builder.generate
+    end
+
     def initialize
       @data = Data.new
       @wrapper = DoubleQuoteWrapper
       @separator = ComaSeparator
     end
 
+    def generate
+      [header_row, data_rows].inject(String.new) do |str, part|
+        str += part
+      end
+    end
+
     def build
       File.open(@file_path, "w") do |f|
-        f.write header_row
-        f.write data_rows
+        f.write self.generate
       end
     end
 

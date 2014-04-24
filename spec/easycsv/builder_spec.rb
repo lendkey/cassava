@@ -40,6 +40,38 @@ describe EasyCSV::Builder do
     end
   end
 
+  describe "#generate" do
+    let(:path) { "/tmp/test_file.csv" }
+    let(:object_1) { double(foo: "Bar", herp: "Derp") }
+    let(:object_2) { double(foo: "A", herp: "B") }
+    let(:result) { "\"Foo\",\"Herp\"\n\"Bar\",\"Derp\"\n\"A\",\"B\"" }
+
+    context "normal mode" do
+      it "should return the sting of the csv" do
+        builder.add_column(:foo, "Foo")
+        builder.add_column(:herp, "Herp")
+        builder.add_row(object_1)
+        builder.add_row(object_2)
+
+        builder.generate.should eq(result)
+      end
+    end
+
+    context "block mode" do
+      it "should return the sting of the csv" do
+        b_object_1 = object_1
+        b_object_2 = object_2
+
+        described_class.generate do
+          add_column(:foo, "Foo")
+          add_column(:herp, "Herp")
+          add_row(b_object_1)
+          add_row(b_object_2)
+        end.should eq(result)
+      end
+    end
+  end
+
   describe "#build" do
     let(:path) { "/tmp/test_file.csv" }
     let(:object_1) { double(foo: "Bar", herp: "Derp") }

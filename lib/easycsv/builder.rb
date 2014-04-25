@@ -32,23 +32,6 @@ module EasyCSV
       @writers << FileWriter.new(path)
     end
 
-    class WriterSet < Array
-      def write(csv_string)
-        self.each {|writer| writer.write(csv_string) }
-      end
-    end
-
-    class FileWriter
-      def initialize(path)
-        @path = path
-      end
-      def write(csv_string)
-        File.open(@path, "w") do |f|
-          f.write csv_string
-        end
-      end
-    end
-
     def method_missing(m, *args, &block)
       @data.send(m, *args, &block)
     end
@@ -56,9 +39,7 @@ module EasyCSV
     private
 
     def generate_csv_string
-      @csv_string = [header_row, data_rows].inject(String.new) do |str, part|
-        str += part
-      end
+      @csv_string = header_row + data_rows
     end
 
     def header_row
@@ -81,5 +62,23 @@ module EasyCSV
     def separate(row)
       @separator.new(row).separate
     end
+
+    class WriterSet < Array
+      def write(csv_string)
+        self.each {|writer| writer.write(csv_string) }
+      end
+    end
+
+    class FileWriter
+      def initialize(path)
+        @path = path
+      end
+      def write(csv_string)
+        File.open(@path, "w") do |f|
+          f.write csv_string
+        end
+      end
+    end
+
   end
 end
